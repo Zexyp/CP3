@@ -3,6 +3,7 @@ package me.zexyp.bank;
 import com.google.gson.Gson;
 import me.zexyp.bank.accounts.AccountType;
 import me.zexyp.bank.accounts.BaseAccount;
+import me.zexyp.bank.accounts.serialization.AccountJsonSerializationObject;
 import me.zexyp.bank.accounts.serialization.AccountJsonSerializationObjectFactory;
 import me.zexyp.bank.accounts.services.AccountService;
 import me.zexyp.bank.cards.services.CardCreatorService;
@@ -66,7 +67,7 @@ public class Bank {
         interestService.run(new BaseAccount[] {account1, account2, stuAccount});
         accountViewService.printAccount(stuAccount);
 
-        cardCreatorService.createCardFor(account1);
+        cardCreatorService.generateCardFor(account1);
         accountViewService.printAccount(account1);
 
         bobuxGenerator.generate(account1,4);
@@ -74,6 +75,9 @@ public class Bank {
         Gson gson = new Gson();
         var ouchie = gson.toJson(accountFSOF.createFromBaseAccount(account1));
         System.out.println(ouchie);
+        accountViewService.printAccount(accountFSOF.createFromAccountJSO(gson.fromJson(ouchie, AccountJsonSerializationObject.class)));
+
+        /*
         var path = Paths.get("ouchie.txt");
         var content = Collections.singleton(ouchie);
         try {
@@ -81,5 +85,6 @@ public class Bank {
         } catch (Exception ex) {
             for (;;);
         }
+        */
     }
 }

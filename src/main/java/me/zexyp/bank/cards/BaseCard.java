@@ -9,8 +9,7 @@ public class BaseCard {
 
     transient private BaseAccount account;
 
-    public BaseCard(BaseAccount account, String number, String exp, String cvc) {
-        this.account = account;
+    public BaseCard(String number, String exp, String cvc) {
         this.number = number;
         this.exp = exp;
         this.cvc = cvc;
@@ -19,4 +18,6 @@ public class BaseCard {
     public String getNumber() { return number; }
     public String getCVC() { return cvc; }
     public String getExpiration() { return exp; }
+
+    public void setAccount(BaseAccount account) { this.account = account; }
 }

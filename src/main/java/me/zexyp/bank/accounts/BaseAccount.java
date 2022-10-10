@@ -37,8 +37,9 @@ public class BaseAccount {
         balance -= amount;
     }
 
-    public void addCard(BaseCard card) {
+    public void assignCard(BaseCard card) {
         cards.add(card);
+        card.setAccount(this);
     }
 
     public BaseCard[] getCards() {

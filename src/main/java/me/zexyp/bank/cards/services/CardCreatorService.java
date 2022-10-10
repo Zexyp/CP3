@@ -14,15 +14,26 @@ public class CardCreatorService {
     @Inject
     private CardDataGeneratorService generator;
 
-    public BaseCard createCardFor(BaseAccount account)
+    public BaseCard generateCard()
     {
         String num = generator.generateNumber();
         String exp = generator.generateExpiration();
         String cvc = generator.generateCVC();
 
-        var card = cardFactory.createCard(account, num, exp, cvc);
+        var card = cardFactory.createCard(num, exp, cvc);
 
-        account.addCard(card);
+        return card;
+    }
+
+    public BaseCard generateCardFor(BaseAccount account)
+    {
+        String num = generator.generateNumber();
+        String exp = generator.generateExpiration();
+        String cvc = generator.generateCVC();
+
+        var card = cardFactory.createCard(num, exp, cvc);
+
+        account.assignCard(card);
 
         return card;
     }
