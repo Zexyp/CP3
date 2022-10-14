@@ -1,0 +1,38 @@
+[
+  {
+    "accountType": "STUDENT",
+    "balance": 0.0,
+    "number": "6101158404888126",
+    "owner": {
+      "firstName": "Aiwen",
+      "lastName": ""
+    },
+    "cards": []
+  },
+  {
+    "accountType": "BASE",
+    "balance": 4.0,
+    "number": "2596493714131909",
+    "owner": {
+      "firstName": "Aiwen",
+      "lastName": ""
+    },
+    "cards": [
+      {
+        "cvc": "57",
+        "exp": "09/2027",
+        "number": "3553 1983 9563 7985"
+      }
+    ]
+  },
+  {
+    "accountType": "BASE",
+    "balance": 0.0,
+    "number": "7894338786781120",
+    "owner": {
+      "firstName": "Aiwen",
+      "lastName": ""
+    },
+    "cards": []
+  }
+]

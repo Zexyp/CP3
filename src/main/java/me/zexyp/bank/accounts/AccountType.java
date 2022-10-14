@@ -1,6 +1,6 @@
 package me.zexyp.bank.accounts;
 
-import jdk.jshell.spi.ExecutionControl;
+import com.google.gson.annotations.SerializedName;
 
 public enum AccountType {
     BASE,
@@ -8,13 +8,11 @@ public enum AccountType {
     SAVINGS;
 
     public static AccountType getFromBaseAccount(BaseAccount account) {
-        if (account instanceof BaseAccount)
-            return AccountType.BASE;
         if (account instanceof StudentAccount)
             return AccountType.STUDENT;
         if (account instanceof SavingsAccount)
             return AccountType.SAVINGS;
 
-        for (;;);
+        return AccountType.BASE;
     }
 }
