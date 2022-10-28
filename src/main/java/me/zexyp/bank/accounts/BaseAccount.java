@@ -29,6 +29,14 @@ public class BaseAccount {
         return owner;
     }
 
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public void setOwner(Person owner) {
+        this.owner = owner;
+    }
+
     public void addToBalance(double amount) {
         balance += amount;
     }

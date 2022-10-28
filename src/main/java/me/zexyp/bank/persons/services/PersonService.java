@@ -15,12 +15,15 @@ public class PersonService {
 
     private final Map<String, Person> persons = new HashMap<>();
 
-    public Person createPerson(String id, String firstName, String lastName) {
-        var person = factory.createPerson(firstName, lastName);
+    public Person createPerson(String firstName, String lastName, String id) {
+        var person = factory.createPerson(firstName, lastName, id);
         persons.put(id, person);
-        return  person;
+        return person;
     }
 
+    public void removePerson(Person person) {
+        persons.remove(person.getId(), person);
+    }
 
     public Person getPerson(String id) {
         return persons.get(id);

@@ -7,8 +7,12 @@ import me.zexyp.bank.accounts.serialization.AccountSerializationObjectFactory;
 import me.zexyp.bank.accounts.services.AccountService;
 import me.zexyp.bank.cards.services.CardCreatorService;
 import me.zexyp.bank.accounts.services.AccountViewService;
+import me.zexyp.bank.cli.Menu;
+import me.zexyp.bank.cli.MenuActionProcessService;
+import me.zexyp.bank.cli.MenuChoices;
 import me.zexyp.bank.persons.Person;
 import me.zexyp.bank.persons.PersonFactory;
+import me.zexyp.bank.persons.services.PersonService;
 import me.zexyp.bank.services.BobuxGenerator;
 import me.zexyp.bank.accounts.services.InterestRunnerService;
 import me.zexyp.bank.accounts.services.MoneyTransferService;
@@ -17,10 +21,11 @@ import me.zexyp.bank.storage.Storage;
 
 import javax.inject.Inject;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Bank {
     @Inject
-    private PersonFactory personFactory;
+    private PersonService personService;
     @Inject
     private AccountSerializationObjectFactory accountSerializationObjectFactory;
 
@@ -38,9 +43,10 @@ public class Bank {
     private AccountService accountService;
     @Inject
     private StringSerializationService serializationService;
-
     @Inject
-    private Storage storage;
+    MenuActionProcessService actionProcessService;
+
+
 
     public Bank()
     {
@@ -51,7 +57,7 @@ public class Bank {
     {
         moneyTransferService.setFeeCalculator(new FeeCalculator());
 
-        Person owner = new Person("Aiwen", "");
+        Person owner = personService.createPerson("Aiwen", "", "asdasd");
 
         BaseAccount account1 = accountService.createAccount(owner, AccountType.BASE);
         BaseAccount account2 = accountService.createAccount(owner, AccountType.BASE);
@@ -74,30 +80,20 @@ public class Bank {
         accountViewService.printAccount(account1);
 
         bobuxGenerator.generate(account1,4);
-
-        this.save();
-        this.load();
     }
 
-    public void save() {
-        AccountSerializationObject[] accountSOs = Arrays.stream(accountService.getAccounts()).
-                map(e -> accountSerializationObjectFactory.createFromBaseAccount(e)).toArray(AccountSerializationObject[]::new);
-        var cnt = serializationService.serialize(accountSOs);
-        storage.writeText("bank.json", cnt);
-    }
+    public void startTerminal() {
+        System.out.println("<put MOTD here>");
 
-    public void load() {
-        /*
-        if (accountService.getAccounts().length > 0)
-            throw new RuntimeException();
-        */
+        Menu menu = new Menu();
+        MenuChoices.printOptions();
 
-        var text = storage.readText("bank.json");
-        BaseAccount[] accounts = Arrays.stream(serializationService.deserialize(text, AccountSerializationObject[].class)).
-                map(e -> accountSerializationObjectFactory.createFromAccountSerializationObject(e)).toArray(BaseAccount[]::new);
-
-        for (var account: accounts) {
-            accountService.addAccount(account);
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            var choice = menu.read(scanner);
+            actionProcessService.processAction(choice, scanner);
+            if (choice == MenuChoices.EXIT)
+                break;
         }
     }
 }

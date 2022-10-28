@@ -34,6 +34,8 @@ public class AccountService {
     }
 
     public void addAccount(BaseAccount account) {
+        // TODO: fix laziness
+        accounts.remove(account.getAccountNumber());
         accounts.put(account.getAccountNumber(), account);
     }
 
@@ -55,6 +57,10 @@ public class AccountService {
         */
 
         return accounts.get(accountNumber);
+    }
+
+    public void removeAccount(BaseAccount account) {
+        accounts.remove(account.getAccountNumber(), account);
     }
 
     public BaseAccount[] getAccounts() {

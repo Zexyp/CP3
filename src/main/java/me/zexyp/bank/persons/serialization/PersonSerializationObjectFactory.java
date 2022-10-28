@@ -15,10 +15,11 @@ public class PersonSerializationObjectFactory {
         PersonSerializationObject personSO = new PersonSerializationObject();
         personSO.firstName = person.getFirstName();
         personSO.lastName = person.getLastName();
+        personSO.id = person.getId();
         return personSO;
     }
 
     public Person createFromPersonSerializationObject(PersonSerializationObject personSO) {
-        return personFactory.createPerson(personSO.firstName, personSO.lastName);
+        return personFactory.createPerson(personSO.firstName, personSO.lastName, personSO.id);
     }
 }
