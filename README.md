@@ -1,1 +1,2 @@
-email: sprypa@delta-studenti.cz
+### Hint for my teacher
+Email username: `sprypa`
