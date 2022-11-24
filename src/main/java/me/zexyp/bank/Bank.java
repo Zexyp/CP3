@@ -81,6 +81,7 @@ public class Bank {
         bobuxGenerator.generate(account1,4);
 
         var atm = atmService.createAtm();
+        atm.activateCard();
         atm.openAccount(card);
         System.out.println(atm.readBalance());
         atm.withdraw(5);
