@@ -6,35 +6,39 @@ import me.zexyp.bank.cards.CardFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.HashMap;
+import java.util.Map;
 
 @Singleton
-public class CardCreatorService {
+public class CardService {
     @Inject
     private CardFactory cardFactory;
     @Inject
     private CardDataGeneratorService generator;
 
-    public BaseCard generateCard()
-    {
+    private Map<String, BaseCard> cards = new HashMap<>();
+
+    public BaseCard generateCard() {
         String num = generator.generateNumber();
         String exp = generator.generateExpiration();
         String cvc = generator.generateCVC();
 
         var card = cardFactory.createCard(num, exp, cvc);
+
+        cards.put(num, card);
 
         return card;
     }
 
-    public BaseCard generateCardFor(BaseAccount account)
-    {
-        String num = generator.generateNumber();
-        String exp = generator.generateExpiration();
-        String cvc = generator.generateCVC();
-
-        var card = cardFactory.createCard(num, exp, cvc);
+    public BaseCard generateCardFor(BaseAccount account) {
+        var card = generateCard();
 
         account.assignCard(card);
 
         return card;
+    }
+
+    public BaseCard getCard(String number) {
+        return cards.get(number);
     }
 }

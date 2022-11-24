@@ -2,25 +2,22 @@ package me.zexyp.bank;
 
 import me.zexyp.bank.accounts.AccountType;
 import me.zexyp.bank.accounts.BaseAccount;
-import me.zexyp.bank.accounts.serialization.AccountSerializationObject;
 import me.zexyp.bank.accounts.serialization.AccountSerializationObjectFactory;
 import me.zexyp.bank.accounts.services.AccountService;
-import me.zexyp.bank.cards.services.CardCreatorService;
+import me.zexyp.bank.atm.services.AtmService;
+import me.zexyp.bank.cards.services.CardService;
 import me.zexyp.bank.accounts.services.AccountViewService;
 import me.zexyp.bank.cli.Menu;
 import me.zexyp.bank.cli.MenuActionProcessService;
 import me.zexyp.bank.cli.MenuChoices;
 import me.zexyp.bank.persons.Person;
-import me.zexyp.bank.persons.PersonFactory;
 import me.zexyp.bank.persons.services.PersonService;
 import me.zexyp.bank.services.BobuxGenerator;
 import me.zexyp.bank.accounts.services.InterestRunnerService;
 import me.zexyp.bank.accounts.services.MoneyTransferService;
 import me.zexyp.bank.services.StringSerializationService;
-import me.zexyp.bank.storage.Storage;
 
 import javax.inject.Inject;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Bank {
@@ -36,7 +33,7 @@ public class Bank {
     @Inject
     private MoneyTransferService moneyTransferService;
     @Inject
-    private CardCreatorService cardCreatorService;
+    private CardService cardService;
     @Inject
     private BobuxGenerator bobuxGenerator;
     @Inject
@@ -44,7 +41,9 @@ public class Bank {
     @Inject
     private StringSerializationService serializationService;
     @Inject
-    MenuActionProcessService actionProcessService;
+    private MenuActionProcessService actionProcessService;
+    @Inject
+    private AtmService atmService;
 
 
 
@@ -76,10 +75,17 @@ public class Bank {
         interestService.run(new BaseAccount[] {account1, account2, stuAccount});
         accountViewService.printAccount(stuAccount);
 
-        cardCreatorService.generateCardFor(account1);
+        var card = cardService.generateCardFor(account1);
         accountViewService.printAccount(account1);
 
         bobuxGenerator.generate(account1,4);
+
+        var atm = atmService.createAtm();
+        atm.openAccount(card);
+        System.out.println(atm.readBalance());
+        atm.withdraw(5);
+        System.out.println(atm.readBalance());
+        atm.closeAccount();
     }
 
     public void startTerminal() {

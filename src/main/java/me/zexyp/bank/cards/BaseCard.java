@@ -6,6 +6,7 @@ public class BaseCard {
     private String number;
     private String exp;
     private String cvc;
+    private boolean active;
 
     transient private BaseAccount account;
 
@@ -20,4 +21,8 @@ public class BaseCard {
     public String getExpiration() { return exp; }
 
     public void setAccount(BaseAccount account) { this.account = account; }
+    public BaseAccount getAccount() { return account; }
+
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
 }
