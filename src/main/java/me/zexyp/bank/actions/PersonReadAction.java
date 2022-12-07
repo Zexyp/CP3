@@ -2,10 +2,10 @@ package me.zexyp.bank.actions;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import jdk.jshell.spi.ExecutionControl;
 import me.zexyp.bank.cli.MenuAction;
 import me.zexyp.bank.persons.Person;
 import me.zexyp.bank.persons.services.PersonService;
-import me.zexyp.bank.persons.services.PersonViewService;
 
 import java.util.Scanner;
 
@@ -13,8 +13,6 @@ import java.util.Scanner;
 public class PersonReadAction implements MenuAction {
     @Inject
     private PersonService personService;
-    @Inject
-    private PersonViewService viewService;
 
     @Override
     public void processAction(Scanner scanner) {
@@ -22,7 +20,11 @@ public class PersonReadAction implements MenuAction {
         if (person == null)
             return;
 
-        viewService.printPerson(person);
+        try {
+            throw new ExecutionControl.NotImplementedException("");
+        } catch (ExecutionControl.NotImplementedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Person getPerson(Scanner scanner)

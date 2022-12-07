@@ -6,7 +6,7 @@ public class BaseCard {
     private String number;
     private String exp;
     private String cvc;
-    private boolean active;
+    private boolean active = false;
 
     transient private BaseAccount account;
 

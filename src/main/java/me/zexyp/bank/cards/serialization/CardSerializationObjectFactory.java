@@ -19,6 +19,6 @@ public class CardSerializationObjectFactory {
     }
 
     public BaseCard createFromCardSerializationObject(CardSerializationObject cardSO) {
-        return cardFactory.createCard(cardSO.number, cardSO.exp, cardSO.cvc);
+        return cardFactory.createBaseCard(cardSO.number, cardSO.exp, cardSO.cvc);
     }
 }

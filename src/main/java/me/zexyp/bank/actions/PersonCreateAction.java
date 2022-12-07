@@ -17,7 +17,7 @@ public class PersonCreateAction implements MenuAction {
     @Override
     public void processAction(Scanner scanner) {
         System.out.print("id: ");
-        var person = personService.createPerson("", "", scanner.nextLine());
+        var person = personService.createPerson(scanner.nextLine(), scanner.nextLine());
         personUpdate.updateInfo(person, scanner);
     }
 }

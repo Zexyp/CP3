@@ -6,7 +6,6 @@ import me.zexyp.bank.accounts.serialization.AccountSerializationObjectFactory;
 import me.zexyp.bank.accounts.services.AccountService;
 import me.zexyp.bank.atm.services.AtmService;
 import me.zexyp.bank.cards.services.CardService;
-import me.zexyp.bank.accounts.services.AccountViewService;
 import me.zexyp.bank.cli.Menu;
 import me.zexyp.bank.cli.MenuActionProcessService;
 import me.zexyp.bank.cli.MenuChoices;
@@ -26,8 +25,6 @@ public class Bank {
     @Inject
     private AccountSerializationObjectFactory accountSerializationObjectFactory;
 
-    @Inject
-    private AccountViewService accountViewService;
     @Inject
     private InterestRunnerService interestService;
     @Inject
@@ -56,33 +53,35 @@ public class Bank {
     {
         moneyTransferService.setFeeCalculator(new FeeCalculator());
 
-        Person owner = personService.createPerson("Aiwen", "", "asdasd");
+        Person owner = personService.createPerson("Very", "egzampel");
 
         BaseAccount account1 = accountService.createAccount(owner, AccountType.BASE);
         BaseAccount account2 = accountService.createAccount(owner, AccountType.BASE);
+        account1.addToBalance(2000);
 
-        accountViewService.printAccount(account1);
-        accountViewService.printAccount(account2);
+        //accountViewService.printAccount(account1);
+        //accountViewService.printAccount(account2);
 
         moneyTransferService.transferMoney(account1, account2, 990);
         System.out.println("transferred");
 
-        accountViewService.printAccount(account1);
-        accountViewService.printAccount(account2);
+        //accountViewService.printAccount(account1);
+        //accountViewService.printAccount(account2);
 
         BaseAccount stuAccount = accountService.createAccount(owner, AccountType.STUDENT);
 
         interestService.run(new BaseAccount[] {account1, account2, stuAccount});
-        accountViewService.printAccount(stuAccount);
+        //accountViewService.printAccount(stuAccount);
 
-        var card = cardService.generateCardFor(account1);
-        accountViewService.printAccount(account1);
+        var card = cardService.createCard();
+        account1.assignCard(card);
+        //accountViewService.printAccount(account1);
 
         bobuxGenerator.generate(account1,4);
 
         var atm = atmService.createAtm();
-        atm.activateCard();
         atm.openAccount(card);
+        atm.activateCard();
         System.out.println(atm.readBalance());
         atm.withdraw(5);
         System.out.println(atm.readBalance());

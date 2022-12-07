@@ -2,9 +2,9 @@ package me.zexyp.bank.actions;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import jdk.jshell.spi.ExecutionControl;
 import me.zexyp.bank.accounts.BaseAccount;
 import me.zexyp.bank.accounts.services.AccountService;
-import me.zexyp.bank.accounts.services.AccountViewService;
 import me.zexyp.bank.cli.MenuAction;
 
 import java.util.Scanner;
@@ -13,8 +13,7 @@ import java.util.Scanner;
 public class AccountReadAction implements MenuAction {
     @Inject
     private AccountService accountService;
-    @Inject
-    private AccountViewService viewService;
+
 
     @Override
     public void processAction(Scanner scanner) {
@@ -22,7 +21,11 @@ public class AccountReadAction implements MenuAction {
         if (account == null)
             return;
 
-        viewService.printAccount(account);
+        try {
+            throw new ExecutionControl.NotImplementedException("");
+        } catch (ExecutionControl.NotImplementedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public BaseAccount getAccount(Scanner scanner)

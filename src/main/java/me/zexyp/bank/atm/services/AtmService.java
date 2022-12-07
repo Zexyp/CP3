@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.zexyp.bank.atm.AtmFactory;
 import me.zexyp.bank.atm.BaseAtm;
+import me.zexyp.bank.cards.BaseCard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,10 @@ public class AtmService {
 
     public void removeAtm(BaseAtm atm) {
         atms.remove(atm);
+    }
+
+    public BaseAtm[] getAtms() {
+        return atms.toArray(new BaseAtm[0]);
     }
 
     public BaseAtm createAtm() {
