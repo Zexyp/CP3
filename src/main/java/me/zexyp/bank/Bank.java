@@ -86,6 +86,15 @@ public class Bank {
         atm.withdraw(5);
         System.out.println(atm.readBalance());
         atm.closeAccount();
+
+        moneyTransferService.addObserver((sender, args) -> {
+            if (args instanceof MoneyTransferService.MoneyTransferArgs mtargs) {
+                System.out.println(
+                        "money transfer from " + mtargs.getFrom().getAccountNumber() +
+                        " to " + mtargs.getTo().getAccountNumber() +
+                        " of " + mtargs.getAmount());
+            }
+        });
     }
 
     public void startTerminal() {
