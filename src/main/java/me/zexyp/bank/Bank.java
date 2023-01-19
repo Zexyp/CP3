@@ -6,6 +6,8 @@ import me.zexyp.bank.accounts.serialization.AccountSerializationObjectFactory;
 import me.zexyp.bank.accounts.services.AccountService;
 import me.zexyp.bank.atm.services.AtmService;
 import me.zexyp.bank.cards.services.CardService;
+import me.zexyp.bank.checks.Check;
+import me.zexyp.bank.checks.services.CheckService;
 import me.zexyp.bank.cli.Menu;
 import me.zexyp.bank.cli.MenuActionProcessService;
 import me.zexyp.bank.cli.MenuChoices;
@@ -41,7 +43,8 @@ public class Bank {
     private MenuActionProcessService actionProcessService;
     @Inject
     private AtmService atmService;
-
+    @Inject
+    private CheckService checkService;
 
 
     public Bank()
@@ -95,6 +98,16 @@ public class Bank {
                         " of " + mtargs.getAmount());
             }
         });
+
+        BaseAccount account3 = accountService.createAccount(owner, AccountType.BASE);
+        account3.addToBalance(1000);
+
+        Check check = checkService.createCheck(account3);
+        System.out.println(account3.getBalance());
+        System.out.println(moneyTransferService.withdrawCheck(check, 100));
+        System.out.println(account3.getBalance());
+        System.out.println(moneyTransferService.withdrawCheck(check, 100));
+        System.out.println(account3.getBalance());
     }
 
     public void startTerminal() {

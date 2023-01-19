@@ -14,4 +14,8 @@ public class AccountFactory {
     public SavingsAccount createSavingsAccount(String accountNumber, Person owner, double balance) {
         return new SavingsAccount(accountNumber, owner, balance);
     }
+
+    public CreditAccount createCreditAccount(String accountNumber, Person owner, double balance) {
+        return new CreditAccount(accountNumber, owner, balance);
+    }
 }

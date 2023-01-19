@@ -1,6 +1,7 @@
 package me.zexyp.bank.accounts;
 
 import me.zexyp.bank.cards.BaseCard;
+import me.zexyp.bank.checks.Check;
 import me.zexyp.bank.persons.Person;
 
 import java.util.LinkedList;
@@ -12,6 +13,7 @@ public class BaseAccount {
     private String accountNumber;
 
     private List<BaseCard> cards = new LinkedList<BaseCard>();
+    private List<Check> checks = new LinkedList<Check>();
 
     public BaseAccount(String accountNumber, Person owner, double balance) {
         this.accountNumber = accountNumber;
@@ -50,7 +52,19 @@ public class BaseAccount {
         card.setAccount(this);
     }
 
+    public void assignCheck(Check check) {
+        assert check.getAccount() == this;
+        checks.add(check);
+    }
+
+    public void removeCheck(Check check) {
+        checks.remove(check);
+    }
+
     public BaseCard[] getCards() {
         return cards.toArray(new BaseCard[0]);
+    }
+    public Check[] getChecks() {
+        return checks.toArray(new Check[0]);
     }
 }

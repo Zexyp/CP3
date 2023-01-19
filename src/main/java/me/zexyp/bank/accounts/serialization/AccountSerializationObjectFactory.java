@@ -3,10 +3,7 @@ package me.zexyp.bank.accounts.serialization;
 import me.zexyp.bank.accounts.AccountFactory;
 import me.zexyp.bank.accounts.AccountType;
 import me.zexyp.bank.accounts.BaseAccount;
-import me.zexyp.bank.cards.serialization.CardSerializationObject;
-import me.zexyp.bank.cards.serialization.CardSerializationObjectFactory;
 import me.zexyp.bank.cards.services.CardService;
-import me.zexyp.bank.persons.serialization.PersonSerializationObjectFactory;
 import me.zexyp.bank.persons.services.PersonService;
 
 import javax.inject.Inject;
@@ -24,7 +21,7 @@ public class AccountSerializationObjectFactory {
 
     public AccountSerializationObject createFromAccount(BaseAccount account) {
         AccountSerializationObject accountData = new AccountSerializationObject();
-        accountData.accountType = AccountType.getFromBaseAccount(account);
+        accountData.accountType = AccountType.getFromAccount(account);
         accountData.number = account.getAccountNumber();
         accountData.balance = account.getBalance();
         accountData.ownerId = account.getOwner().getId();
@@ -40,20 +37,25 @@ public class AccountSerializationObjectFactory {
         var person = personService.getPerson(accountData.ownerId);
         BaseAccount account = switch (accountData.accountType) {
             case BASE ->
-                    accountFactory.createBaseAccount(
-                            accountData.number,
-                            person,
-                            accountData.balance);
+                accountFactory.createBaseAccount(
+                        accountData.number,
+                        person,
+                        accountData.balance);
             case STUDENT ->
-                    accountFactory.createStudentAccount(
-                            accountData.number,
-                            person,
-                            accountData.balance);
+                accountFactory.createStudentAccount(
+                        accountData.number,
+                        person,
+                        accountData.balance);
             case SAVINGS ->
-                    accountFactory.createSavingsAccount(
-                            accountData.number,
-                            person,
-                            accountData.balance);
+                accountFactory.createSavingsAccount(
+                        accountData.number,
+                        person,
+                        accountData.balance);
+            case CREDIT ->
+                accountFactory.createCreditAccount(
+                        accountData.number,
+                        person,
+                        accountData.balance);
         };
 
         for (int i = 0; i < accountData.cardIds.length; i++) {
