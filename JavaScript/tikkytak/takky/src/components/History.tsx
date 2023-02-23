@@ -1,12 +1,23 @@
 import {ReactElement} from "react";
+import "./History.css"
 
-export function History(): ReactElement {
+interface HistoryPropsInteface {
+    elements: string[]
+    onClick: (index: number) => void
+}
+
+export function History(props: HistoryPropsInteface): ReactElement {
     return (
         <div>
             <h2>History</h2>
-            <ul>
-                <li>asd</li>
-                <li>asd</li>
+            <ul className="history">
+                {
+                    props.elements.map((e, i) => {
+                        return (
+                            <li onClick={() => props.onClick(i)}>{e}</li>
+                        )
+                    })
+                }
             </ul>
         </div>
     )
